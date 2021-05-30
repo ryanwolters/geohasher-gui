@@ -11,9 +11,9 @@ using System.Security.Cryptography;
 
 namespace Geohasher
 {
-    public partial class uxForm : Form
+    public partial class UserInterface : Form
     {
-        public uxForm()
+        public UserInterface()
         {
             InitializeComponent();
             InitializeUI();
@@ -61,5 +61,6 @@ namespace Geohasher
             uxMonth.Text = DateTime.Now.Month.ToString();
             uxDay.Text = DateTime.Now.Day.ToString();
         }
+
     }
 }
