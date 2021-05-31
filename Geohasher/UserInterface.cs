@@ -28,19 +28,21 @@ namespace Geohasher
             MD5 md5 = MD5.Create();
             byte[] hash = md5.ComputeHash(encoding);
             int[] intHash = GetIntHash_Bitwise(hash);
-            double latTail = 0;
-            double longTail = 0;
+            double latitude = 0;
+            double longitude = 0;
             for (int i = 0; i < 16; i++)
             {
-                latTail += intHash[i] * Math.Pow(16, -(i + 1));
-                longTail += intHash[i + 16] * Math.Pow(16, -(i + 1));
+                latitude += intHash[i] * Math.Pow(16, -(i + 1));
+                longitude += intHash[i + 16] * Math.Pow(16, -(i + 1));
             }
-
-            // remove extra zeroes
-            // truncate fraction to 6 digits
-
-            uxOutputLatitude.Text = uxLatitude.Text + latTail.ToString();
-            uxOutputLongitude.Text = uxLongitude.Text + longTail.ToString();
+            latitude += Math.Abs(Convert.ToDouble(uxLatitude.Text));
+            longitude += Math.Abs(Convert.ToDouble(uxLongitude.Text));
+            if (Math.Sign(Convert.ToDouble(uxLatitude.Text)) < 0) latitude *= -1;
+            if (Math.Sign(Convert.ToDouble(uxLongitude.Text)) < 0) longitude *= -1;
+            latitude = Math.Round(latitude, 6);
+            longitude = Math.Round(longitude, 6);
+            uxOutputLatitude.Text = latitude.ToString();
+            uxOutputLongitude.Text = longitude.ToString();
         }
 
         private void InitializeUI()
